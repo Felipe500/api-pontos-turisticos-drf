@@ -11,6 +11,8 @@ django = "^5.0.2"
 python-decouple = "^3.8"
 dj-database-url = "^2.1.0"
 psycopg2 = "^2.9.9"
+djangorestframework = "^3.14.0"
+django-filter = "^23.5"
 
 
 [build-system]
