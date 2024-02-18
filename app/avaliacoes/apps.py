@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class AvaliacoesConfig(AppConfig):
-    name = 'avaliacoes'
+    name = 'app.avaliacoes'

@@ -1,7 +1,6 @@
 from rest_framework import viewsets
-from comentarios.models import Comentario
-from comentarios.api.serializers import ComentarioSerializer
-
+from app.comentarios.models import Comentario
+from app.comentarios.api.serializers import ComentarioSerializer
 
 
 class ComentarioViewSet(viewsets.ModelViewSet):

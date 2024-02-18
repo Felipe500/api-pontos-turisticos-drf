@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from avaliacoes.models import Avaliacao
+from app.avaliacoes.models import Avaliacao
 
 
 class AvaliacaoSerializer(ModelSerializer):

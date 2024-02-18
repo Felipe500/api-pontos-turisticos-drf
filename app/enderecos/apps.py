@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class EnderecosConfig(AppConfig):
-    name = 'enderecos'
+    name = 'app.enderecos'

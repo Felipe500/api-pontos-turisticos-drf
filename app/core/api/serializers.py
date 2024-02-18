@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from core.models import PontoTuristico, DocIdentificacao
-from atracoes.api.serializers import AtracaoSerializer
-from enderecos.api.serializers import EnderecoSerializer
-from rest_framework.fields import SerializerMethodField
-from atracoes.models import Atracao
-from enderecos.models import Endereco
+
+from app.core.models import PontoTuristico, DocIdentificacao
+from app.atracoes.api.serializers import AtracaoSerializer
+from app.enderecos.api.serializers import EnderecoSerializer
+from app.atracoes.models import Atracao
+from app.enderecos.models import Endereco
 
 
 class DocIdentificacaoSerializer(serializers.ModelSerializer):
