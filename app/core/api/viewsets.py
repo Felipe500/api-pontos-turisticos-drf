@@ -1,15 +1,16 @@
 from django.http import HttpResponse
 from rest_framework.decorators import action
-from rest_framework import viewsets, filters
-from rest_framework.permissions import DjangoModelPermissions # IsAuthenticatedOrReadOnly # IsAuthenticatedOrReadOnly
+from rest_framework import filters
+from rest_framework.permissions import DjangoModelPermissions
 from rest_framework.authentication import TokenAuthentication
 
 from app.core.models import PontoTuristico
+from app.common.view import ViewCommon
 
 from .serializers import PontoTuristicoSerializer
 
 
-class PontoTuristicoViewSet(viewsets.ModelViewSet):
+class PontoTuristicoViewSet(ViewCommon):
     # filter_backends = [DjangoFilterBackend]
     # filterset_fields = ['nome', 'descricao']
     serializer_class = PontoTuristicoSerializer
