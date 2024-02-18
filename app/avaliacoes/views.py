@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from app.avaliacoes.models import Avaliacao
 
-# Create your views here.
+from app.common.view import ViewCommon
+
+from .serializers import AvaliacaoSerializer
+
+
+class AvaliacaoViewSet(ViewCommon):
+    queryset = Avaliacao.objects.all()
+    serializer_class = AvaliacaoSerializer

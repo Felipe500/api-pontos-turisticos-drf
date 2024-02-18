@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from app.comentarios.models import Comentario
 
-# Create your views here.
+from app.common.view import ViewCommon
+
+from .serializers import ComentarioSerializer
+
+
+class ComentarioViewSet(ViewCommon):
+    queryset = Comentario.objects.all()
+    serializer_class = ComentarioSerializer

@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from app.enderecos.models import Endereco
 
-# Create your views here.
+from app.common.view import ViewCommon
+
+from .serializers import EnderecoSerializer
+
+
+class EnderecoViewSet(ViewCommon):
+    queryset = Endereco.objects.all()
+    serializer_class = EnderecoSerializer
