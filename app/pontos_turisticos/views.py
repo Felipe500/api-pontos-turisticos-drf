@@ -4,9 +4,9 @@ from rest_framework import filters
 from rest_framework.permissions import DjangoModelPermissions
 from rest_framework.authentication import TokenAuthentication
 
-from app.core.models import PontoTuristico
 from app.common.view import ViewCommon
 
+from .models import PontoTuristico
 from .serializers import PontoTuristicoSerializer
 
 

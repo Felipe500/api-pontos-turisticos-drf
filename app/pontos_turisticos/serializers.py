@@ -1,10 +1,11 @@
 from rest_framework import serializers
 
-from app.core.models import PontoTuristico, DocIdentificacao
-from app.atracoes.api.serializers import AtracaoSerializer
-from app.enderecos.api.serializers import EnderecoSerializer
+from app.atracoes.serializers import AtracaoSerializer
+from app.enderecos.serializers import EnderecoSerializer
 from app.atracoes.models import Atracao
 from app.enderecos.models import Endereco
+
+from .models import PontoTuristico, DocIdentificacao
 
 
 class DocIdentificacaoSerializer(serializers.ModelSerializer):
@@ -18,7 +19,6 @@ class PontoTuristicoSerializer(serializers.ModelSerializer):
     endereco = EnderecoSerializer(read_only=True)
     descricao_completa = serializers.SerializerMethodField()
     doc_identificacao = DocIdentificacaoSerializer()
-
 
     class Meta:
         model = PontoTuristico
