@@ -25,7 +25,7 @@ urlpatterns = [
     path('avaliacoes/', include('app.avaliacoes.urls')),
     path('comentarios/', include('app.comentarios.urls')),
     path('enderecos/', include('app.enderecos.urls')),
-    path('core/', include('app.core.urls')),
+    path('pontos-turisticos/', include('app.pontos_turisticos.urls')),
     re_path(r"^docs/$", schema_view.with_ui("redoc"), name="schema-swagger-ui"),
 
 ]

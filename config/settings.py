@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'app.atracoes',
     'app.avaliacoes',
     'app.comentarios',
-    'app.core',
+    'app.pontos_turisticos',
     'app.enderecos',
 ]
 
