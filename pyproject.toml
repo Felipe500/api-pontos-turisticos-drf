@@ -15,6 +15,9 @@ djangorestframework = "^3.14.0"
 django-filter = "^23.5"
 pillow = "^10.2.0"
 drf-yasg = "^1.21.7"
+djangorestframework-simplejwt = "^5.3.1"
+django-model-utils = "^4.4.0"
+django-ipware = "^6.0.4"
 
 
 [build-system]

@@ -67,6 +67,34 @@ files = [
 Django = ">=3.2"
 
 [[package]]
+name = "django-ipware"
+version = "6.0.4"
+description = "A Django application to retrieve user's IP address"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django-ipware-6.0.4.tar.gz", hash = "sha256:614d0f0a911f8a765e55b6d358b1715bb85eeb63d1ebb77447d09d645f1343e8"},
+    {file = "django_ipware-6.0.4-py2.py3-none-any.whl", hash = "sha256:09c502ee3b1f8ae08d197d5e1f4397e965d0b201c83de7b5721db1fc460e6ab6"},
+]
+
+[package.dependencies]
+python-ipware = ">=2.0.0"
+
+[[package]]
+name = "django-model-utils"
+version = "4.4.0"
+description = "Django model mixins and utilities"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django-model-utils-4.4.0.tar.gz", hash = "sha256:7b73179480e4d4a737d0188e7c49da03776bbadedad569a534c4e9f1afc004d4"},
+    {file = "django_model_utils-4.4.0-py3-none-any.whl", hash = "sha256:d57143e8b7345fd4719c5a95d07d7a50f7d11134da6a729aa6b73fb9674bec9d"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+
+[[package]]
 name = "djangorestframework"
 version = "3.14.0"
 description = "Web APIs for Django, made easy."
@@ -80,6 +108,30 @@ files = [
 [package.dependencies]
 django = ">=3.0"
 pytz = "*"
+
+[[package]]
+name = "djangorestframework-simplejwt"
+version = "5.3.1"
+description = "A minimal JSON Web Token authentication plugin for Django REST Framework"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "djangorestframework_simplejwt-5.3.1-py3-none-any.whl", hash = "sha256:381bc966aa46913905629d472cd72ad45faa265509764e20ffd440164c88d220"},
+    {file = "djangorestframework_simplejwt-5.3.1.tar.gz", hash = "sha256:6c4bd37537440bc439564ebf7d6085e74c5411485197073f508ebdfa34bc9fae"},
+]
+
+[package.dependencies]
+django = ">=3.2"
+djangorestframework = ">=3.12"
+pyjwt = ">=1.7.1,<3"
+
+[package.extras]
+crypto = ["cryptography (>=3.3.1)"]
+dev = ["Sphinx (>=1.6.5,<2)", "cryptography", "flake8", "freezegun", "ipython", "isort", "pep8", "pytest", "pytest-cov", "pytest-django", "pytest-watch", "pytest-xdist", "python-jose (==3.3.0)", "sphinx_rtd_theme (>=0.1.9)", "tox", "twine", "wheel"]
+doc = ["Sphinx (>=1.6.5,<2)", "sphinx_rtd_theme (>=0.1.9)"]
+lint = ["flake8", "isort", "pep8"]
+python-jose = ["python-jose (==3.3.0)"]
+test = ["cryptography", "freezegun", "pytest", "pytest-cov", "pytest-django", "pytest-xdist", "tox"]
 
 [[package]]
 name = "drf-yasg"
@@ -233,6 +285,23 @@ files = [
 ]
 
 [[package]]
+name = "pyjwt"
+version = "2.8.0"
+description = "JSON Web Token implementation in Python"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "PyJWT-2.8.0-py3-none-any.whl", hash = "sha256:59127c392cc44c2da5bb3192169a91f429924e17aff6534d70fdc02ab3e04320"},
+    {file = "PyJWT-2.8.0.tar.gz", hash = "sha256:57e28d156e3d5c10088e0c68abb90bfac3df82b40a71bd0daa20c65ccd5c23de"},
+]
+
+[package.extras]
+crypto = ["cryptography (>=3.4.0)"]
+dev = ["coverage[toml] (==5.0.4)", "cryptography (>=3.4.0)", "pre-commit", "pytest (>=6.0.0,<7.0.0)", "sphinx (>=4.5.0,<5.0.0)", "sphinx-rtd-theme", "zope.interface"]
+docs = ["sphinx (>=4.5.0,<5.0.0)", "sphinx-rtd-theme", "zope.interface"]
+tests = ["coverage[toml] (==5.0.4)", "pytest (>=6.0.0,<7.0.0)"]
+
+[[package]]
 name = "python-decouple"
 version = "3.8"
 description = "Strict separation of settings from code."
@@ -242,6 +311,20 @@ files = [
     {file = "python-decouple-3.8.tar.gz", hash = "sha256:ba6e2657d4f376ecc46f77a3a615e058d93ba5e465c01bbe57289bfb7cce680f"},
     {file = "python_decouple-3.8-py3-none-any.whl", hash = "sha256:d0d45340815b25f4de59c974b855bb38d03151d81b037d9e3f463b0c9f8cbd66"},
 ]
+
+[[package]]
+name = "python-ipware"
+version = "2.0.1"
+description = "A Python package to retrieve user's IP address"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "python-ipware-2.0.1.tar.gz", hash = "sha256:9ba4805152ebb85ad5b53797185cd1ce6231e1db60155834f326c8cd61e8af34"},
+    {file = "python_ipware-2.0.1-py3-none-any.whl", hash = "sha256:1992920ef553165dfa35e6ea5a90762f64f3b943cc22ee6b4ec02e2c86d31178"},
+]
+
+[package.extras]
+dev = ["coverage[toml]", "coveralls (>=3.3,<4.0)", "ruff", "twine"]
 
 [[package]]
 name = "pytz"
@@ -366,4 +449,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "3a524a927242b45d9399a083e86fbc6b1ebed020fa6238c9a2697853ca93a90c"
+content-hash = "72bc0dd172cc9ac08e8dd83feedc53012e7dc52f144fef4c26c0b0791b09fe0d"
