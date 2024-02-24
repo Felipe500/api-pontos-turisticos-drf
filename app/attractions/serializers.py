@@ -1,8 +1,8 @@
 from rest_framework.serializers import ModelSerializer
-from app.atracoes.models import Atracao
+from app.attractions.models import Attraction
 
 
-class AtracaoSerializer(ModelSerializer):
+class AttractionSerializer(ModelSerializer):
     class Meta:
-        model = Atracao
-        fields = ('id', 'nome', 'descricao', 'horario_func', 'idade_minima', 'foto', 'observacoes')
+        model = Attraction
+        fields = ('id', 'name', 'description', 'opening_hours', 'minimum_age', 'photo', 'observation')

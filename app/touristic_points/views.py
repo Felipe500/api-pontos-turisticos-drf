@@ -6,22 +6,21 @@ from rest_framework.authentication import TokenAuthentication
 
 from app.common.view import ViewCommon
 
-from .models import TouristSpot
-from .serializers import TouristSpotSerializer
+from .models import TouristicPoint
+from .serializers import TouristicPointSerializer
 
 
 class PontoTuristicoViewSet(ViewCommon):
     # filter_backends = [DjangoFilterBackend]
     # filterset_fields = ['nome', 'descricao']
-    serializer_class = TouristSpotSerializer
+    serializer_class = TouristicPointSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['nome', 'descricao']
     # lookup_field = 'id'
-    permission_classes = [DjangoModelPermissions]
-    authentication_classes = [TokenAuthentication]
+
 
     def get_queryset(self):
-        queryset = TouristSpot.objects.all()
+        queryset = TouristicPoint.objects.all()
         id = self.request.query_params.get('id', None)
         nome = self.request.query_params.get('nome', None)
         descricao = self.request.query_params.get('descricao', None)
@@ -69,7 +68,7 @@ class PontoTuristicoViewSet(ViewCommon):
     def associa_atracoes(self, request, id):
         atracoes = request.data['ids']
 
-        ponto = TouristSpot.objects.get(id=id)
+        ponto = TouristicPoint.objects.get(id=id)
 
         ponto.atracoes.set(atracoes)
 

@@ -1,8 +1,8 @@
 from rest_framework.serializers import ModelSerializer
-from app.enderecos.models import Endereco
+from app.address.models import Address
 
 
-class EnderecoSerializer(ModelSerializer):
+class AddressSerializer(ModelSerializer):
     class Meta:
-        model = Endereco
-        fields = ['id', 'linha1', 'linha2', 'cidade', 'estado', 'pais', 'latitude', 'longitude']
+        model = Address
+        fields = '__all__'

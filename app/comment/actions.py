@@ -1,10 +1,10 @@
-def reprova_comentarios(modeladmin, request, queryset):
+def disapproved_comment(modeladmin, request, queryset):
     queryset.update(approved=False)
 
 
-def aprova_comentarios(modeladmin, request, queryset):
+def approved_comment(modeladmin, request, queryset):
     queryset.update(approved=True)
 
 
-reprova_comentarios.short_description = 'Reprovar comentarios'
-aprova_comentarios.short_description = 'Aprovar comentarios'
+disapproved_comment.short_description = 'Reprovar comentarios'
+approved_comment.short_description = 'Aprovar comentarios'

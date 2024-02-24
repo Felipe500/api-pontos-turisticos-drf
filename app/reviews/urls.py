@@ -1,10 +1,10 @@
 from django.urls import path
 
-from .views import  AvaliacaoViewSet
+from .views import ReviewViewSet, ListReviewViewSet
 
 
 urlpatterns = [
-    path('', AvaliacaoViewSet.as_view({'post': 'create'}), name='criar_avaliacao'),
-    path('list', AvaliacaoViewSet.as_view({'get': 'list'}), name='listar_avaliacoes'),
-    path('<int:pk>', AvaliacaoViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='avaliacao'),
+    path('', ReviewViewSet.as_view({'post': 'create'}), name='create_review'),
+    path('<int:pk>', ReviewViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='review'),
+    path('list', ListReviewViewSet.as_view({'get': 'list'}), name='list_review'),
 ]

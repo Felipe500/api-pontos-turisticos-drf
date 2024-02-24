@@ -1,9 +1,9 @@
 from rest_framework.serializers import ModelSerializer
-from app.comentarios.models import Comment
+from app.comment.models import Comment
 
 
 class CommentSerializer(ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['user', 'text', 'data', 'aprovado']
+        fields = ['user', 'text', 'approved']
         

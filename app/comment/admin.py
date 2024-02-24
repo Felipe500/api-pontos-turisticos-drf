@@ -1,11 +1,11 @@
 from django.contrib import admin
 from .models import Comment
-from .actions import aprova_comentarios, reprova_comentarios
+from .actions import disapproved_comment, approved_comment
 
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['user', 'created_at', 'approved']
-    actions = [reprova_comentarios, aprova_comentarios]
+    actions = [disapproved_comment, approved_comment]
 
 
 admin.site.register(Comment, CommentAdmin)

@@ -1,13 +1,13 @@
 from django_filters.rest_framework import DjangoFilterBackend
 
-from app.atracoes.models import Atracao
+from app.attractions.models import Attraction
 from app.common.view import ViewCommon
 
-from .serializers import AtracaoSerializer
+from .serializers import AttractionSerializer
 
 
 class AtracaoViewSet(ViewCommon):
-    queryset = Atracao.objects.all()
-    serializer_class = AtracaoSerializer
+    queryset = Attraction.objects.all()
+    serializer_class = AttractionSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['nome', 'descricao']
+    filterset_fields = ['name', 'description']

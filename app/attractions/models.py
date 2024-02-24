@@ -1,7 +1,9 @@
 from django.db import models
 
+from app.common.models import BaseModel
 
-class Attraction(models.Model):
+
+class Attraction(BaseModel):
     name = models.CharField(max_length=150)
     description = models.TextField()
     opening_hours = models.TextField()

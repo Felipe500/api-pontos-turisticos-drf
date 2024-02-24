@@ -1,6 +1,6 @@
 from rest_framework.permissions import AllowAny
 
-from app.comentarios.models import Comment
+from app.comment.models import Comment
 
 from app.common.view import ViewCommon
 

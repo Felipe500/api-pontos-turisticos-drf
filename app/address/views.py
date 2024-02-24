@@ -1,10 +1,9 @@
-from app.enderecos.models import Endereco
-
+from app.address.models import Address
 from app.common.view import ViewCommon
 
-from .serializers import EnderecoSerializer
+from .serializers import AddressSerializer
 
 
-class EnderecoViewSet(ViewCommon):
-    queryset = Endereco.objects.all()
-    serializer_class = EnderecoSerializer
+class AddressViewSet(ViewCommon):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
