@@ -1,4 +1,6 @@
 import os
+from datetime import timedelta
+
 from decouple import config
 from dj_database_url import parse as db_url
 from pathlib import Path
@@ -18,6 +20,9 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "accounts.User"
+
+AUTHENTICATION_BACKENDS = ("app.accounts.backends.AccountsAuthentication",)
 
 # Application definition
 
@@ -30,13 +35,14 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'drf_yasg',
     'rest_framework',
-    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
     'django_filters',
-    'app.atracoes',
-    'app.avaliacoes',
-    'app.comentarios',
-    'app.pontos_turisticos',
-    'app.enderecos',
+    'app.accounts',
+    'app.attractions',
+    'app.reviews',
+    'app.comment',
+    'app.touristic_points',
+    'app.address',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +75,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+SIMPLE_JWT = {
+    "ALGORITHM": "HS512",
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=3600 * 24 * 30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(seconds=3600 * 24 * 30),
+    "ROTATE_REFRESH_TOKENS": True,
+    "AUTH_HEADER_TYPES": ("JWT",),
+}
+
+TOKEN_RESET_EXPIRED = 1
+
+REST_FRAMEWORK = {
+    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S.%fZ',
+    'DEFAULT_PERMISSION_CLASSES': (
+        # 'app.authorization.base_authorization.BaseAuthorization',
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20,
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

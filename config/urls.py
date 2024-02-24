@@ -8,11 +8,9 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Blitz Members API",
+        title="PONTOS TURISTICOS API",
         default_version="v1",
-        description="Blitz Members®",
-        terms_of_service="https://blitzpay.com.br/policies/terms/",
-        contact=openapi.Contact(email="tecnologia@blitzpay.com.br"),
+        contact=openapi.Contact(email="felipe.brx.dev@gmail.com"),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
@@ -21,11 +19,12 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('atracoes/', include('app.atracoes.urls')),
-    path('avaliacoes/', include('app.avaliacoes.urls')),
-    path('comentarios/', include('app.comentarios.urls')),
-    path('enderecos/', include('app.enderecos.urls')),
-    path('pontos-turisticos/', include('app.pontos_turisticos.urls')),
+    path('accounts/', include('app.accounts.urls')),
+    path('atracoes/', include('app.attractions.urls')),
+    path('avaliacoes/', include('app.reviews.urls')),
+    path('comentarios/', include('app.comment.urls')),
+    path('enderecos/', include('app.address.urls')),
+    path('pontos-turisticos/', include('app.touristic_points.urls')),
     re_path(r"^docs/$", schema_view.with_ui("redoc"), name="schema-swagger-ui"),
 
 ]
