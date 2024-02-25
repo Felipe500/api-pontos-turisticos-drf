@@ -11,7 +11,7 @@ schema_view = get_schema_view(
         title="PONTOS TURISTICOS API",
         default_version="v1",
         contact=openapi.Contact(email="felipe.brx.dev@gmail.com"),
-        license=openapi.License(name="BSD License"),
+        license=openapi.License(name="GNU General Public License (GNU GPL)"),
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
