@@ -31,18 +31,20 @@ class TouristicPointSerializer(serializers.ModelSerializer):
             at = Attraction.objects.create(**atracao)
             ponto.atracoes.add(at)
 
-    def create(self, validated_data):
-        atracoes = validated_data['attractions']
-        del validated_data['atracoes']
-        
-        endereco = validated_data['address']
-        del validated_data['endereco']
+    def create(self, validated_data, atracoes=[], endereco=None):
+        if 'attractions' in validated_data.keys():
+            atracoes = validated_data['attractions']
+            del validated_data['atracoes']
+        if validated_data.get('address', None):
+            endereco = validated_data.get('address', None)
+            validated_data.pop("address")
 
         ponto = TouristicPoint.objects.create(**validated_data)
         self.cria_atracoes(atracoes, ponto)
-        
-        end = Address.objects.create(**endereco)
-        ponto.endereco = end
+
+        if endereco:
+            address = Address.objects.create(**endereco)
+            ponto.endereco = address
         ponto.save()
         
         return ponto
