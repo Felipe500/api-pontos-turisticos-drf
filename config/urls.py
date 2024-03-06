@@ -23,7 +23,6 @@ urlpatterns = [
     path('atracoes/', include('app.attractions.urls')),
     path('avaliacoes/', include('app.reviews.urls')),
     path('comentarios/', include('app.comment.urls')),
-    path('enderecos/', include('app.address.urls')),
     path('pontos-turisticos/', include('app.touristic_points.urls')),
     re_path(r"^docs/$", schema_view.with_ui("redoc"), name="schema-swagger-ui"),
 
