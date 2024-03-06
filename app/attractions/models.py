@@ -10,7 +10,8 @@ class Attraction(BaseModel):
     minimum_age = models.PositiveIntegerField()
     photo = models.ImageField(upload_to='attraction', null=True, blank=True)
     observation = models.CharField(max_length=150, null=True, blank=True)
+    tourist_spot = models.ForeignKey('touristic_points.TouristicPoint', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.nome
+        return self.name
         

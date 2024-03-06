@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from app.attractions.serializers import AttractionSerializer
+from app.attractions.serializers import AttractionsSerializer
 from app.address.serializers import AddressSerializer
 from app.attractions.models import Attraction
 from app.address.models import Address
@@ -9,8 +9,8 @@ from .models import TouristicPoint
 
 
 class TouristicPointSerializer(serializers.ModelSerializer):
-    attractions = AttractionSerializer(many=True, required=False)
-    address = AddressSerializer(read_only=True)
+    attractions = AttractionsSerializer(many=True, required=False)
+    address = AddressSerializer(required=True)
 
     class Meta:
         model = TouristicPoint
@@ -26,25 +26,34 @@ class TouristicPointSerializer(serializers.ModelSerializer):
             )
         read_only_fields = ['reviews']
 
-    def cria_atracoes(self, atracoes, ponto):
-        for atracao in atracoes:
-            at = Attraction.objects.create(**atracao)
-            ponto.atracoes.add(at)
+    def get_list_attractions(self, obj):
+        return AttractionsSerializer(obj.attractions, many=True).data
 
-    def create(self, validated_data, atracoes=[], endereco=None):
+    def create_attractions(self, atracoes, ponto):
+        for atracao in atracoes:
+            atracao['tourist_spot'] = ponto
+            Attraction.objects.create(**atracao)
+
+    def create(self, validated_data, attractions=[], address=None):
+        print('create')
+        print(validated_data.keys())
         if 'attractions' in validated_data.keys():
-            atracoes = validated_data['attractions']
-            del validated_data['atracoes']
-        if validated_data.get('address', None):
-            endereco = validated_data.get('address', None)
+            attractions = validated_data['attractions']
+            print(attractions)
+            del validated_data['attractions']
+        if 'address' in validated_data.keys():
+            print('address')
+            address = validated_data.get('address', None)
             validated_data.pop("address")
 
-        ponto = TouristicPoint.objects.create(**validated_data)
-        self.cria_atracoes(atracoes, ponto)
+        new_touristic_point = TouristicPoint.objects.create(**validated_data)
+        self.create_attractions(attractions, new_touristic_point)
 
-        if endereco:
-            address = Address.objects.create(**endereco)
-            ponto.endereco = address
-        ponto.save()
+        if address:
+            print(address)
+            address = Address.objects.create(**address)
+            new_touristic_point.address = address
+
+        new_touristic_point.save()
         
-        return ponto
+        return new_touristic_point

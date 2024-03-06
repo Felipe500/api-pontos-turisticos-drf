@@ -14,8 +14,8 @@ class ComentarioViewSet(ViewCommon):
     queryset = Comment.objects.filter(approved=True)
     serializer_class = CommentSerializer
 
-    def get_serializer_context(self):
-        return {'request': self.request, 'user_id': self.request.user.id}
+    def get_object(self):
+        return get_object_or_404(pk=self.kwargs.get('pk'), user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -28,9 +28,6 @@ class ListComentarioViewSet(ViewCommon):
     queryset = Comment.objects.filter(approved=True, parent_id__isnull=True)
     serializer_class = CommentSerializer
     permission_classes = (AllowAny,)
-
-    def get_serializer_context(self):
-        return {'request': self.request, 'user_id': self.request.user.id}
 
 
 class LikeInComment(generics.GenericAPIView):

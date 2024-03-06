@@ -10,5 +10,8 @@ class Review(BaseModel):
     note = models.PositiveIntegerField(validators=[RegexValidator(r'\b([0-9]|10)\b')])
     tourist_spot = models.ForeignKey('touristic_points.TouristicPoint', on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ['user', 'tourist_spot']
+
     def __str__(self):
         return self.user.name

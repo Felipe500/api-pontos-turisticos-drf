@@ -20,7 +20,7 @@ class AccountCreateSerializer(serializers.ModelSerializer):
         validated_data["request"] = self.context["request"]
 
         if self.Meta.model.objects.filter(email=validated_data.get("email")).exists():
-            raise serializers.ValidationError({"email": [DUPLICATION_EMAIL]})
+            raise serializers.ValidationError({"email": DUPLICATION_EMAIL})
         user = self.Meta.model.objects.create_user(**validated_data)
         return user
 
@@ -31,6 +31,7 @@ class SignInSerializer(serializers.Serializer):
 
     def validate(self, attrs: dict):
         request = self.context.get('request')
+        print(attrs)
         user = authenticate(request, **attrs)
 
         if not user:
