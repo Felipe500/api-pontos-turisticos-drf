@@ -1,76 +1,33 @@
-from django.http import HttpResponse
-from rest_framework.decorators import action
-from rest_framework import filters
-from rest_framework.permissions import DjangoModelPermissions, IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
+from django.db.models import Q
+from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import AllowAny
 
 from app.common.view import ViewCommon
 
-from .models import TouristicPoint
 from .serializers import TouristicPointSerializer
 
 
-class PontoTuristicoViewSet(ViewCommon):
-    # filter_backends = [DjangoFilterBackend]
-    # filterset_fields = ['nome', 'descricao']
+class ChangePontoTuristicoViewSet(ViewCommon):
     serializer_class = TouristicPointSerializer
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['nome', 'descricao']
-    # lookup_field = 'id'
+    queryset = serializer_class.Meta.model.objects.get_queryset()
 
+
+class ReadPontoTuristicoViewSet(ViewCommon):
+    serializer_class = TouristicPointSerializer
+    queryset = serializer_class.Meta.model.objects.get_queryset()
+    permission_classes = (AllowAny,)
 
     def get_queryset(self):
-        queryset = TouristicPoint.objects.all()
-        id = self.request.query_params.get('id', None)
-        nome = self.request.query_params.get('nome', None)
-        descricao = self.request.query_params.get('descricao', None)
+        search = self.request.query_params.get('search', None)
 
-        if id is not None:
-            queryset = queryset.filter(id__iexact=id)
+        if search:
+            words = search.split(" ")
+            q_filters = Q()
 
-        if nome is not None:
-            queryset = queryset.filter(nome__iexact=nome)
+            for word in words:
+                q_filters |= Q(name__unaccent__icontains=word)
+                q_filters |= Q(description__unaccent__icontains=word)
 
-        if descricao is not None:
-            queryset = queryset.filter(descricao__iexact=descricao)
+            return self.queryset.filter(q_filters)
 
-        return queryset
-
-    def list(self, request, *args, **kwargs):
-        return super(PontoTuristicoViewSet, self).list(request, *args, **kwargs)
-
-    def create(self, request, *args, **kwargs):
-        return super(PontoTuristicoViewSet, self).create(request, *args, **kwargs)
-
-    def destroy(self, request, *args, **kwargs):
-        return super(PontoTuristicoViewSet, self).destroy(request, *args, **kwargs)
-
-    def retrieve(self, request, *args, **kwargs):
-        return super(PontoTuristicoViewSet, self).retrieve(request, *args, **kwargs)
-
-    def update(self, request, *args, **kwargs):
-        return super(PontoTuristicoViewSet, self).update(request, *args, **kwargs)
-
-    def partial_update(self, request, *args, **kwargs):
-        return super(PontoTuristicoViewSet, self).partial_update(request, *args, **kwargs)
-
-    @action(methods=['post', 'get'], detail=True)
-    def denunciar(self, request, pk=None):
-        pass
-        # return super(PontoTuristicoViewSet, self).denunciar(request, *args, **kwargs)
-
-    @action(methods=['get'], detail=False)
-    def teste(self, request):
-        pass
-        # return super(PontoTuristicoViewSet, self).teste(request, *args, **kwargs)
-
-    @action(methods=['post'], detail=True)
-    def associa_atracoes(self, request, id):
-        atracoes = request.data['ids']
-
-        ponto = TouristicPoint.objects.get(id=id)
-
-        ponto.atracoes.set(atracoes)
-
-        ponto.save()
-        return HttpResponse('Ok')
+        return self.queryset

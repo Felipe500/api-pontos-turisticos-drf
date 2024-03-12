@@ -12,13 +12,16 @@ class ReviewViewSet(ViewCommon):
     serializer_class = ReviewSerializer
 
     def get_object(self):
-        return get_object_or_404(pk=self.kwargs.get('pk'), user=self.request.user)
+        return get_object_or_404(self.queryset, pk=self.kwargs.get('pk'), user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
     def perform_update(self, serializer):
         serializer.save(user=self.request.user)
+
+    def perform_destroy(self, instance):
+        instance.delete()
 
 
 class ListReviewViewSet(ViewCommon):

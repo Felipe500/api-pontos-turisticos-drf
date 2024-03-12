@@ -1,16 +1,28 @@
 from rest_framework import serializers
 
 from app.attractions.serializers import AttractionsSerializer
-from app.address.serializers import AddressSerializer
 from app.attractions.models import Attraction
-from app.address.models import Address
+from app.reviews.models import Review
 
 from .models import TouristicPoint
 
 
+class AddressSerializer2(serializers.Serializer):
+    number = serializers.IntegerField()
+    district = serializers.CharField()
+    city = serializers.CharField()
+    state = serializers.CharField()
+    country = serializers.CharField(required=False)
+    zip = serializers.IntegerField()
+    latitude = serializers.IntegerField(required=False)
+    longitude = serializers.IntegerField(required=False)
+
+
 class TouristicPointSerializer(serializers.ModelSerializer):
     attractions = AttractionsSerializer(many=True, required=False)
-    address = AddressSerializer(required=True)
+    address = AddressSerializer2(write_only=True)
+    review = serializers.FloatField(required=False, source='percent_review')
+    user_rated = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = TouristicPoint
@@ -21,39 +33,56 @@ class TouristicPointSerializer(serializers.ModelSerializer):
             'photo',
             'approved',
             'attractions',
-            'reviews',
+            'review',
+            'total_review',
+            'user_rated',
             'address',
             )
-        read_only_fields = ['reviews']
+        read_only_fields = ['review', 'total_review', 'attractions']
+
+    def get_address(self, obj):
+        return AddressSerializer2(obj).data
 
     def get_list_attractions(self, obj):
         return AttractionsSerializer(obj.attractions, many=True).data
 
-    def create_attractions(self, atracoes, ponto):
-        for atracao in atracoes:
-            atracao['tourist_spot'] = ponto
-            Attraction.objects.create(**atracao)
+    def get_user_rated(self, obj):
+        user_id = self.context.get('user').id
+        return Review.objects.filter(user_id=user_id, tourist_spot_id=obj.id).exists()
+
+    @classmethod
+    def create_attractions(cls, attractions=[dict], tourist_spot=None):
+        for attraction in attractions:
+            attraction['tourist_spot'] = tourist_spot
+            Attraction.objects.create(**attraction)
 
     def create(self, validated_data, attractions=[], address=None):
-        print('create')
-        print(validated_data.keys())
         if 'attractions' in validated_data.keys():
-            attractions = validated_data['attractions']
-            print(attractions)
-            del validated_data['attractions']
+            attractions = validated_data.pop('attractions', [])
+
         if 'address' in validated_data.keys():
-            print('address')
-            address = validated_data.get('address', None)
-            validated_data.pop("address")
+            address = validated_data.pop('address', {})
+            for attr, val in address.items():
+                validated_data[attr] = val
 
         new_touristic_point = TouristicPoint.objects.create(**validated_data)
+
         self.create_attractions(attractions, new_touristic_point)
-
-        if address:
-            print(address)
-            address = Address.objects.create(**address)
-            new_touristic_point.address = address
-
-        new_touristic_point.save()
         
         return new_touristic_point
+
+    def update(self, instance, validated_data):
+        if 'attractions' in validated_data.keys():
+            validated_data.pop('attractions', [])
+
+        if 'address' in validated_data.keys():
+            address = validated_data.pop('address', {})
+            for attr, val in address.items():
+                validated_data[attr] = val
+
+        return super().update(instance, validated_data)
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['address'] = AddressSerializer2(instance).data
+        return data

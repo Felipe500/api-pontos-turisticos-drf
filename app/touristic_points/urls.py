@@ -1,9 +1,12 @@
 from django.urls import path
 
-from .views import PontoTuristicoViewSet
+from .views import ChangePontoTuristicoViewSet, ReadPontoTuristicoViewSet
+
+app_name = "touristic_points"
 
 urlpatterns = [
-    path('', PontoTuristicoViewSet.as_view({'post': 'create'}), name='criar_pontos_turisticos'),
-    path('list', PontoTuristicoViewSet.as_view({'get': 'list'}), name='listar_pontos_turistico'),
-    path('<int:pk>', PontoTuristicoViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='ponto_turistico'),
+    path('', ChangePontoTuristicoViewSet.as_view({'post': 'create'}), name='create'),
+    path('list', ReadPontoTuristicoViewSet.as_view({'get': 'list'}), name='list'),
+    path('view/<int:pk>', ReadPontoTuristicoViewSet.as_view({'get': 'retrieve'}), name='retrieve'),
+    path('change/<int:pk>', ChangePontoTuristicoViewSet.as_view({'put': 'update', 'delete': 'destroy'}), name='change')
 ]

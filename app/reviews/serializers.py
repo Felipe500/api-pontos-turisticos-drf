@@ -1,3 +1,4 @@
+from django.db.models import F
 from django.core.validators import RegexValidator
 from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, IntegerField
 from rest_framework.serializers import ValidationError
@@ -21,7 +22,11 @@ class ReviewSerializer(ModelSerializer):
         fields = ['id', 'touristic_point_id', 'user_id', 'text', 'note', 'created_at']
         read_only_fields = ['user_id']
 
-    def validate(self, attrs):
+    def create(self, validated_data):
         if Review.objects.filter(user_id=self.context.get('user_id')).exists():
             raise ValidationError({'error': 'evaluation already created'})
-        return attrs
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        Review.objects.update_review(instance.tourist_spot.id, instance.note, validated_data['note'])
+        return super().update(instance, validated_data)
