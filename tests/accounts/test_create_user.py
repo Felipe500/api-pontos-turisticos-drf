@@ -10,7 +10,7 @@ from .. import constants
 
 
 @pytest.mark.django_db
-class TestAccounts2:
+class TestAccounts:
 
     def test_create_user(self, user_1):
         payload_data = {

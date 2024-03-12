@@ -1,9 +1,6 @@
 import pytest
 from rest_framework.test import APIClient
 
-from django.conf import settings
-from django.utils import timezone
-
 from app.accounts.models import User
 from app.reviews.models import Review
 from app.comment.models import Comment
@@ -11,6 +8,15 @@ from app.attractions.models import Attraction
 from app.touristic_points.models import TouristicPoint
 
 from .constants import email_user1, email_user2, default_pass, touristic_points1, touristic_points2
+
+
+from django.db import connection
+
+
+@pytest.fixture(autouse=True)
+def activate_postgresql_unaccent():
+    with connection.cursor() as cursor:
+        cursor.execute("CREATE EXTENSION IF NOT EXISTS unaccent;")
 
 
 @pytest.fixture
@@ -35,6 +41,7 @@ def api_client_1(user_1):
     client = APIClient()
     client.force_authenticate(user_1)
     client.credentials(HTTP_AUTHORIZATION=f"JWT {user_1.token}")
+    client.default_format = "json"
     return client
 
 
@@ -54,5 +61,5 @@ def review_1(touristic_points_1) -> Review:
 
 
 @pytest.fixture
-def review_1(touristic_points_1) -> Review:
-    return Review.objects.create(**{"touristic_point": touristic_points_1, "text": "BOA", "note": 7})
+def review_2(touristic_points_1) -> Review:
+    return Review.objects.create(**{"touristic_point": touristic_points_1, "text": "Ruim", "note": 2})

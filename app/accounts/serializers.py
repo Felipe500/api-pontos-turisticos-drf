@@ -31,7 +31,6 @@ class SignInSerializer(serializers.Serializer):
 
     def validate(self, attrs: dict):
         request = self.context.get('request')
-        print(attrs)
         user = authenticate(request, **attrs)
 
         if not user:
