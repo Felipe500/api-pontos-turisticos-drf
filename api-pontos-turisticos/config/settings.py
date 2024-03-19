@@ -1,13 +1,16 @@
 import os
 from datetime import timedelta
 
-from decouple import config
+from decouple import AutoConfig, Csv
 from dj_database_url import parse as db_url
 from pathlib import Path
 
+# configure local diretorio do arquivo .env
+config = AutoConfig(search_path='..')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
+DATA_DIR = BASE_DIR.parent / 'data' / 'web'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -18,7 +21,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='*')
 
 AUTH_USER_MODEL = "accounts.User"
 
@@ -146,7 +149,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
+# /data/web/static
+STATIC_URL = "/static/"
+STATIC_ROOT = DATA_DIR / 'static'
+
+# /data/web/media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = DATA_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
